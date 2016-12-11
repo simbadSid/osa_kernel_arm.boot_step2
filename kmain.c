@@ -129,6 +129,7 @@ void handler_uart0_IRQ(char c)
  * for all interrupts (that is IRQs in the ARM parlance, usually FIQs are
  * handled by a different handler. See assembly setup in gic.s.
  */
+//#define ECHO_IRQ
 void irq_handler(void)
 {
 	irq_id_t irq = 0;
@@ -382,6 +383,7 @@ void kmain()
 	poll();
 #else
 	irq_init();
+	initIrqPendingList();
 	#ifdef vexpress_a9
 		umain(32);
 		umain(16);
@@ -390,6 +392,7 @@ void kmain()
 	uart_send_string(stdout, "IRQs enabled\n\r");
 	for (;;)
 	{
+		handlAllPendingIrq();
 		_arm_sleep();
 	}
 #endif

@@ -7,23 +7,18 @@
 /**
  * Strcture to store the pending IRQ requests
  */
-kIrqPendingList irqPendingList;
+kIrqPendingList *irqPendingList;
 int		nbPendingIrqRequest;
 
 
 
 /**
- * Allocate and return a pointer to an empty list of pending IRQ requests (that have not been handeled yet).
+ * Initialize the structures that contain the pending IRQ requests
  */
 void initIrqPendingList()
 {
-	int i;
-
-	nbPendingIrqRequest = 0;
-	for (i=0; i<MAX_NBR_PENDING_IRQ; i++)
-	{
-		irqPendingList[i].irqId = 0;
-	}
+	nbPendingIrqRequest	= 0;
+	irqPendingList		= NULL;
 }
 
 
@@ -36,7 +31,11 @@ void addPendingIrq (kIrqPendingEntry entry)
 	if (nbPendingIrqRequest >= MAX_NBR_PENDING_IRQ)
 		panic(666, "IRQ pending list overflow\n\r");
 
-	irqPendingList[nbPendingIrqRequest] = entry;
+	kIrqPendingList *newIrqPendingList = kmalloc(sizeof(kIrqPendingList));
+
+	newIrqPendingList->entry	= entry;
+	newIrqPendingList->next		= irqPendingList;
+	irqPendingList			= newIrqPendingList;
 	nbPendingIrqRequest ++;
 
 
@@ -66,8 +65,22 @@ unsigned int getAndRemovePendingIrq(kIrqPendingEntry *pendingEntry)
 	if (nbPendingIrqRequest <= 0)
 		return 0;
 
-	*pendingEntry = irqPendingList[nbPendingIrqRequest-1];
-	nbPendingIrqRequest--;
+	kIrqPendingList *tmpIrqPendingList	= irqPendingList;
+	kIrqPendingList *prevIrqPendingList	= NULL;
+
+	while(tmpIrqPendingList->next != NULL)
+	{
+		prevIrqPendingList	= tmpIrqPendingList;
+		tmpIrqPendingList	= tmpIrqPendingList->next;
+	}
+
+	*pendingEntry = tmpIrqPendingList->entry;
+	kfree(tmpIrqPendingList);
+	nbPendingIrqRequest --;
+	if (prevIrqPendingList != NULL)
+		prevIrqPendingList->next = NULL;
+	else
+		irqPendingList = NULL;
 
 	return 1;
 }

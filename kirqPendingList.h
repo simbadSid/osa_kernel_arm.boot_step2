@@ -52,8 +52,12 @@ typedef struct __attribute ((packed)) K_IRQ_PENDING_ENTRY
 } kIrqPendingEntry;
 
 
-// TODO: this struct will change to a list when the kmem (dynamic memory allocation) will be available
-typedef kIrqPendingEntry kIrqPendingList[MAX_NBR_PENDING_IRQ];
+typedef struct __attribute ((packed)) K_IRQ_PENDING_LIST
+{
+	kIrqPendingEntry		entry;
+	struct K_IRQ_PENDING_LIST	*next;
+} kIrqPendingList;
+
 
 
 
