@@ -109,7 +109,10 @@ typedef uint8_t boolean_t;
 
 #define ARM_GIC_BASE_OFFSET   0x00100  // Generic Interrupt Controller
 #define ARM_GST_BASE_OFFSET   0x00200  // Global System Timer
-#define ARM_PWT_BASE_OFFSET   0x00200  // Private Watchd dogs and Timers
+// TODO 
+// TODO #define ARM_PWT_BASE_OFFSET   0x00200  // Private Watchd dogs and Timers
+#define ARM_PWT_BASE_OFFSET   0x06000  // Private Watchd dogs and Timers
+// TODO private timer
 #define ARM_GID_BASE_OFFSET   0x01000  // Generic Interrupt Distributor
 
 #define CORTEX_A9_NIRQS           96

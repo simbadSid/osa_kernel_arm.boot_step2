@@ -36,12 +36,12 @@
  * and no control flow. This is the usual setting for terminals.
  */
 
-void uart_init(struct pl011_uart* uart) {
-
-  uart->CR &= ~(UART_CR_UARTEN | UART_CR_TXE | UART_CR_RXE);
-  uart->ICR = 0x7FFF;
-  uart->IMSC = 0x00; // &= ~(UART_IMSC_RXIM | UART_IMSC_TXIM);
-  uart->CR |= (UART_CR_UARTEN | UART_CR_TXE | UART_CR_RXE);
+void uart_init(struct pl011_uart* uart)
+{
+	uart->CR &= ~(UART_CR_UARTEN | UART_CR_TXE | UART_CR_RXE);
+	uart->ICR = 0x7FFF;
+	uart->IMSC = 0x00; // &= ~(UART_IMSC_RXIM | UART_IMSC_TXIM);
+	uart->CR |= (UART_CR_UARTEN | UART_CR_TXE | UART_CR_RXE);
 }
 
 /**

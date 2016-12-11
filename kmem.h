@@ -8,10 +8,12 @@
 #ifndef KMEM_H_
 #define KMEM_H_
 
-#define HAL_CACHE_LINE_SIZE 32
-#define HAL_PAGE_SIZE 4096
-#define HAL_PAGE_MASK (~(HAL_PAGE_SIZE-1))
-#define HAL_PAGE_OF(addr) (void*)((uintptr_t)addr & ((uintptr_t)HAL_PAGE_MASK))
+#include <stdint.h>
+
+#define HAL_CACHE_LINE_SIZE	32
+#define HAL_PAGE_SIZE		4096
+#define HAL_PAGE_MASK		(~(HAL_PAGE_SIZE-1))
+#define HAL_PAGE_OF(addr)	(void*)((uintptr_t)addr & ((uintptr_t)HAL_PAGE_MASK))
 
 /*
  * Nota Bene: the all-casting to (uintptr_t) is mandatory to work on both

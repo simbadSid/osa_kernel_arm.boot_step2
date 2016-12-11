@@ -1,14 +1,32 @@
+##----------------------------------
+## Laptop
+##----------------------------------
+#QEMU=qemu-system-arm
+#TOOLCHAIN=/usr/local/bin/gcc-arm-none-eabi-4_8-2014q3/bin/
 
-# Choose your Qemu, set to your own path
-# QEMU=/usr/bin/qemu-system-arm
-QEMU=/homex/opt/qemu.git/arm-softmmu/qemu-system-arm
 
-# Choose your toolchain for ARM 
-TOOLCHAIN=/homex/opt/gcc-arm-none-eabi-4_8-2014q3/bin
+
+##----------------------------------
+## Mandelbrot
+##----------------------------------
+#QEMU=qemu-arm
+#TOOLCHAIN=
+
+
+##----------------------------------
+## Lqptop ulysse
+##----------------------------------
+QEMU=qemu-system-arm
+TOOLCHAIN=/home/coutaudu/Desktop/gcc-arm-none-eabi-5_4-2016q3/bin/
+
+
+
+
+
 
 # Choose your emulated board
-BOARD_VERSATILEPB=y
-BOARD_VEXPRESS=n
+BOARD_VERSATILEPB=n
+BOARD_VEXPRESS=y
 
 # Say yes ('y') at first, using the linux terminal as a serial line.
 # Then say no ('n') to discover the use of telnet connections as serial lines. 
@@ -39,7 +57,7 @@ CONFIG_DEBUG=y
 ####################################################################
 
 # Add the platform-independent code, which is your kernel.
-OBJS = build/kmain.o build/kprintf.o build/kmem.o 
+OBJS = build/kmain.o build/kprintf.o build/kmem.o build/kirqPendingList.o
 
 # Add the necessary support for arithmetic operations.
 # The function kprintf uses integer division and modulo.
@@ -168,6 +186,9 @@ build/kprintf.o: kprintf.c Makefile
 build/kmem.o: kmem.c Makefile
 	$(GCC) $(CFLAGS) kmem.c -o build/kmem.o
 
+build/kirqPendingList.o: kirqPendingList.c Makefile
+	$(GCC) $(CFLAGS) -o $@ $^
+
 build/kmain.o: kmain.c Makefile
 	$(GCC) $(CFLAGS) kmain.c -o build/kmain.o
 
@@ -183,6 +204,8 @@ run: all
 gdb: all
 	$(QEMU) -M $(QEMU_BOARD) -kernel $(BOARD).bin $(SERIAL_LINES) $(QEMU_OPTIONS) -s -S
 
+gdb_local: 
+	$(GDB) $(BOARD).elf
 kill:
 	pkill qemu-system-arm
 

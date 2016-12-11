@@ -62,8 +62,9 @@ void main(uint32_t pid) {
   exit(0);
 }
 
-void umain(uint32_t pid) {
-  kprintf("--> launching user pid=%d...\n",pid);
-  _arm_usr_mode(pid,main);
-  kprintf("--> user pid=%d exited, errcode=%d \n",pid, errcode);
+void umain(uint32_t pid)
+{
+	kprintf("--> launching user pid=%d...\n",pid);
+	_arm_usr_mode(pid,main);
+	kprintf("--> user pid=%d exited, errcode=%d \n",pid, errcode);
 }

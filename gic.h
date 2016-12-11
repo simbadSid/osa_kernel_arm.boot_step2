@@ -52,15 +52,18 @@ typedef uint32_t cpu_id_t;
  *
  */
 ALWAYS_INLINE
-void arm_enable_interrupts(void) {
-  unsigned long temp;
-  __asm__ __volatile__(
-      "mrs %0, cpsr\n"
-      "bic %0, %0, #0x80\n"  /* IRQs (CPSR_IRQ_FLAG), no FIQs (CPSR_FIQ_FLAG) */
-      "msr cpsr_c, %0"
-      : "=r" (temp)
-      :
-      : "memory");
+void arm_enable_interrupts(void)
+{
+	unsigned long temp;
+	__asm__ __volatile__
+	(
+		"mrs %0, cpsr\n"
+		"bic %0, %0, #0x80\n"  /* IRQs (CPSR_IRQ_FLAG), no FIQs (CPSR_FIQ_FLAG) */
+		"msr cpsr_c, %0"
+		: "=r" (temp)
+		:
+		: "memory"
+	);
 }
 
 /*

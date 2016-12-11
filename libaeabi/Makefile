@@ -1,4 +1,19 @@
-PREFIX ?= /homex/opt/gcc-arm-none-eabi-4_8-2014q3
+##----------------------------------
+
+
+
+##----------------------------------
+## Mandelbrot
+##----------------------------------
+
+
+##----------------------------------
+## Lqptop ulysse
+##----------------------------------
+PREFIX ?= /home/coutaudu/Desktop/gcc-arm-none-eabi-5_4-2016q3
+
+
+ 
 ARMGNU ?= $(PREFIX)/bin/arm-none-eabi
 
 AS=$(ARMGNU)-as -mthumb -k -mfloat-abi=soft

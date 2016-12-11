@@ -10,39 +10,45 @@
 
 #define VERBOSE_CLEANUP
 
-struct __attribute__ ((__packed__,aligned(4))) _chunk {
-  uint16_t size;
-  struct _chunk *next;
+struct __attribute__ ((__packed__,aligned(4))) _chunk
+{
+	uint16_t	size;
+	struct _chunk	*next;
 };
 
 ALWAYS_INLINE
-void* chunk_data(struct _chunk *chunk) {
-  return ((void*)chunk) + sizeof(struct _chunk);
+void* chunk_data(struct _chunk *chunk)
+{
+	return ((void*)chunk) + sizeof(struct _chunk);
 }
 
 ALWAYS_INLINE
-struct _chunk* chunk_of(void *addr) {
-  return (addr - sizeof(struct _chunk));
+struct _chunk* chunk_of(void *addr)
+{
+	return (addr - sizeof(struct _chunk));
 }
 
 
-struct __attribute__ ((__packed__,aligned(4))) space_page {
-  uint16_t start;
-  uint16_t end;
-  uint16_t nchunks;
-  uint16_t offset;
-  uint16_t free;
-  struct space_page *next;
-  struct space_valloc *allocator;
+struct __attribute__ ((__packed__,aligned(4))) space_page
+{
+	uint16_t start;
+	uint16_t end;
+	uint16_t nchunks;
+	uint16_t offset;
+	uint16_t free;
+	struct space_page *next;
+	struct space_valloc *allocator;
 };
 
 ALWAYS_INLINE
-struct space_page* space_page_of(void* addr) {
-  addr = HAL_PAGE_OF(addr) + HAL_PAGE_SIZE - sizeof(struct space_page);
-  return (struct space_page*)addr;
+struct space_page* space_page_of(void* addr)
+{
+	addr = HAL_PAGE_OF(addr) + HAL_PAGE_SIZE - sizeof(struct space_page);
+	return (struct space_page*)addr;
 }
 
-struct __attribute__ ((__packed__,aligned(4))) space_valloc {
+struct __attribute__ ((__packed__,aligned(4))) space_valloc
+{
   uintptr_t low,high;
   struct space_page *first;
   struct space_page *pages;
@@ -50,7 +56,7 @@ struct __attribute__ ((__packed__,aligned(4))) space_valloc {
   uint32_t nzpages;
   struct _chunk *holes;
   uint32_t nholes;
-  struct {
+  struct{
     struct space_page *pages;
     uint16_t npages;
   } free;

@@ -128,7 +128,7 @@ _arm_irq_init:
     * Since the Cortex-A9 allows to have the interrupt vector
     * at another address than 0x0000-0000, we use this instead.
     *
-   	* p15,0,<Rd>,c12,c0 -> Interrupt Vector base address
+    * p15,0,<Rd>,c12,c0 -> Interrupt Vector base address
     * Cortex-A9 Technical Reference Manual
     * 4.2.13 c12 registers, page 59
 	* Table 4-13 shows the CP15 system control registers you can access when CRn is c12.
