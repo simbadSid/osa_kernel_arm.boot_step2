@@ -392,6 +392,7 @@ void kmain()
 	uart_send_string(stdout, "IRQs enabled\n\r");
 	for (;;)
 	{
+		
 		handlAllPendingIrq();
 		_arm_sleep();
 	}

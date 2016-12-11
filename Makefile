@@ -93,7 +93,7 @@ ifeq ($(BOARD_VEXPRESS),y)
   QEMU_OPTIONS= -smp cpus=1 -nographic -m 128M 
   CONFIG_BOARD=vexpress_a9
   LDSCRIPT=ldscript.vexpress
-  OBJS+= build/pl011.o build/startup.o build/gic_s.o build/gic_c.o build/gid.o build/user.o
+  OBJS+= build/pl011.o build/startup.o build/gic_s.o build/gic_c.o build/gid.o build/user.o build/timer.o
 endif
 
 ifeq ($(CONFIG_DEBUG),y)
@@ -176,6 +176,10 @@ build/pl190_c.o: pl190.c Makefile
 
 build/pl190_s.o: pl190.s Makefile
 	$(AS) $(ASFLAGS) pl190.s -o build/pl190_s.o
+
+build/timer.o: timer.c Makefile
+	$(GCC) $(CFLAGS) $^ -o $@
+
 
 #
 # Platform-independent code
