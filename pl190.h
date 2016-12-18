@@ -99,32 +99,33 @@ int arm_disable_interrupts(void) {
 [23] External interrupt signal from RealView Logic Tile or MCI1A interrupt signal
 [22] External interrupt signal from RealView Logic Tile or MCI0A interrupt signal
 [21] External interrupt signal from RealView Logic Tile or DiskOnChip interrupt signal
-[20]           GND                                 Reserved
-[19]           MBX                                Graphics processor on development chip
-[18]           PWRFAIL                        Power failure from FPGA
-[17]           DMA                                DMA controller in development chip
-[16]           CLCD                               CLCD controller in development chip
-[15]           SCI0                                 Smart Card interface in development chip
-[14]           UART2                             UART2 on development chip
-[13]           UART1                             UART1 on development chip
-[12]           UART0                             UART0 on development chip
-[11]           SSP                                   Synchronous serial port in development chip
-[10]           RTC                                  Real time clock in development chip
-[9]             GPIO3                              GPIO controller in development chip
-[8]             GPIO2                              GPIO controller in development chip
-[7]             GPIO1                              GPIO controller in development chip
-[6]             GPIO0                              GPIO controller in development chip
-[5]             Timer 2 or 3                      Timers on development chip
-[4]             Timer 0 or 1                      Timers on development chip
-[3]             Comms TX                       Debug communications transmit interrupt.
-This interrupt indicates that the communications channel is available for the processor to
-pass messages to the debugger.
-[2]             Comms RX                       Debug communications receive interrupt.
-This interrupt indicates to the processor that messages are available for the processor to read.
-[1]             Software interrupt            Software interrupt.
-Enabling and disabling the software interrupt is done with the Enable Set and Enable Clear Registers.
-Triggering the interrupt however, is done from the Soft Interrupt Set register.
-[0]             Watchdog                         Watchdog timer
+[20]           GND                     Reserved
+[19]           MBX                     Graphics processor on development chip
+[18]           PWRFAIL                 Power failure from FPGA
+[17]           DMA                     DMA controller in development chip
+[16]           CLCD                    CLCD controller in development chip
+[15]           SCI0                    Smart Card interface in development chip
+[14]           UART2                   UART2 on development chip
+[13]           UART1                   UART1 on development chip
+[12]           UART0                   UART0 on development chip
+[11]           SSP                     Synchronous serial port in development chip
+[10]           RTC                     Real time clock in development chip
+[9]            GPIO3                   GPIO controller in development chip
+[8]            GPIO2                   GPIO controller in development chip
+[7]            GPIO1                   GPIO controller in development chip
+[6]            GPIO0                   GPIO controller in development chip
+[5]            Timer 2 or 3            Timers on development chip
+[4]            Timer 0 or 1            Timers on development chip
+[3]            Comms TX                Debug communications transmit interrupt.
+				       This interrupt indicates that the communications channel is available 
+				       for the processor to pass messages to the debugger.
+[2]             Comms RX               Debug communications receive interrupt. This interrupt
+				       indicates to the processor that messages are available for the
+ 				       processor to read.
+[1]             Software interrupt     Software interrupt.   Enabling and disabling the software interrupt 
+				       is done with the Enable Set and Enable Clear Registers.  Triggering 
+				       the interrupt however, is done from the Soft Interrupt Set register.
+[0]             Watchdog               Watchdog timer
 */
 
 #define PL190_DMA_INTR 17

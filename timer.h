@@ -23,6 +23,32 @@
 #ifndef TIMER_H
 #define TIMER_H
 
+#include "board.h"
+
+
+
+/**
+ * Offset of the watchdog private registers (relative to 
+ * the base address of the watchdog private memory region)
+ */
+#define TIMER_OFF_WATCHDOG_REGISTER_LOAD			0x20
+#define TIMER_OFF_WATCHDOG_REGISTER_COUNTER			0x24
+#define TIMER_OFF_WATCHDOG_REGISTER_CONTROL			0x28
+
+
+/**
+ * Index in the watchdog control register where to find the given informations
+ */
+#define TIMER_BIT_WATCHDOG_REGISTER_CONTROL_WATCHDOG_MODE	3
+#define TIMER_BIT_WATCHDOG_REGISTER_CONTROL_INTERUPT_ENABLE	2
+#define TIMER_BIT_WATCHDOG_REGISTER_CONTROL_AUTO_RELOAD		1
+#define TIMER_BIT_WATCHDOG_REGISTER_CONTROL_WATCHDOG_ENABLE	0
+
+
+
+
+void	setTimmer	(uint32_t time, char multipleShot);
+void	unsetTimmer	();
 
 
 

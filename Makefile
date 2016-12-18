@@ -16,10 +16,22 @@
 ##----------------------------------
 ## Lqptop ulysse
 ##----------------------------------
+#QEMU=qemu-system-arm
+#TOOLCHAIN=/home/coutaudu/Desktop/gcc-arm-none-eabi-5_4-2016q3/bin/
+
+
+##----------------------------------
+## VM ubuntu
+##----------------------------------
 QEMU=qemu-system-arm
-TOOLCHAIN=/home/coutaudu/Desktop/gcc-arm-none-eabi-5_4-2016q3/bin/
+TOOLCHAIN=
+import:
+	rm -r -f *;\
+	scp -r sidlakhr@mandelbrot.e.ujf-grenoble.fr:/home/s/sidlakhr/Desktop/osa_kernel_arm.boot_step2/* .
 
-
+export:
+	ssh sidlakhr@mandelbrot.e.ujf-grenoble.fr 'rm -r -f /home/s/sidlakhr/Desktop/osa_kernel_arm.boot_step2/*';\
+	scp -r * sidlakhr@mandelbrot.e.ujf-grenoble.fr:/home/s/sidlakhr/Desktop/osa_kernel_arm.boot_step2/
 
 
 
@@ -27,6 +39,9 @@ TOOLCHAIN=/home/coutaudu/Desktop/gcc-arm-none-eabi-5_4-2016q3/bin/
 # Choose your emulated board
 BOARD_VERSATILEPB=n
 BOARD_VEXPRESS=y
+
+# Set to F to do not arm the timer initially.  Set to a T otherwise 
+CONFIG_TEST_TIMER=T
 
 # Say yes ('y') at first, using the linux terminal as a serial line.
 # Then say no ('n') to discover the use of telnet connections as serial lines. 
@@ -69,11 +84,11 @@ OBJS += libaeabi/uidivmod.o  libaeabi/idiv.o  libaeabi/uldivmod.o
 # BELOW THIS LINE -- YOU SHOULD NOT HAVE TO MODIFY ANYTHING
 ####################################################################
 
-GCC=$(TOOLCHAIN)/arm-none-eabi-gcc
-LD=$(TOOLCHAIN)/arm-none-eabi-ld
-AS=$(TOOLCHAIN)/arm-none-eabi-gcc
-OBJCOPY=$(TOOLCHAIN)/arm-none-eabi-objcopy
-GDB=$(TOOLCHAIN)/arm-none-eabi-gdb
+GCC=$(TOOLCHAIN)arm-none-eabi-gcc
+LD=$(TOOLCHAIN)arm-none-eabi-ld
+AS=$(TOOLCHAIN)arm-none-eabi-gcc
+OBJCOPY=$(TOOLCHAIN)arm-none-eabi-objcopy
+GDB=$(TOOLCHAIN)arm-none-eabi-gdb
 
 ifeq ($(BOARD_VERSATILEPB),y)
   BOARD=versatilepb
@@ -106,6 +121,9 @@ else
   LDFLAGS=
 endif
 
+ifeq ($(CONFIG_TEST_TIMER),T)
+	CFLAGS+= -DCONFIG_TEST_TIMER
+endif
 # Flags for compiling assembly language.
 # Note that we ask GCC to do it after applying the C preprocessor (cpp).
 ASFLAGS+= -mcpu=$(CPU) -c -x assembler-with-cpp -D$(CONFIG_BOARD)

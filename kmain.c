@@ -29,6 +29,7 @@
 #endif
 #include "kmem.h"
 #include "kirqPendingList.h"
+#include "timer.h"
 
 #define ECHO
 #define ECHO_ZZZ
@@ -92,6 +93,8 @@ void irq_init()
  */
 void handlAllPendingIrq()
 {
+uint32_t timerCounter = arm_mmio_read32(cortex_a9_peripheral_base() + ARM_PWT_BASE_OFFSET,TIMER_OFF_WATCHDOG_REGISTER_COUNTER);
+kprintf("+++ counter = 0x%x\n", timerCounter);
 	kIrqPendingEntry pendingIrq;
 
 	while(getAndRemovePendingIrq(&pendingIrq))
@@ -106,8 +109,6 @@ void handlAllPendingIrq()
 			break; // Useless cause panic calls halt (but used by the compiler)
 		}
 	}
-
-
 }
 
 
@@ -136,6 +137,8 @@ void irq_handler(void)
 	cpu_id_t cpu = 0;
 	char c = '.';
 
+	arm_disable_interrupts();
+
 	/*
 	 * If the list of pending IRQ is full, execute all of them before to cache the current.
 	 * The reason for that is that for the time being (as long as the kmem doesn't work), we can 
@@ -160,7 +163,10 @@ void irq_handler(void)
 	* a spurious interrupt.
 	*/
 	if (ARM_GIC_IAR_SPURIOUS(irq))
+	{
+		arm_enable_interrupts();
 		return;
+	}
 
 	kIrqPendingEntry irqPendingEntry;
 	irqPendingEntry.irqId = irq;
@@ -194,6 +200,8 @@ void irq_handler(void)
 	kprintf("------------------------------\n\r");
 #endif
 	cortex_a9_gic_acknowledge_irq(irq, cpu);
+
+	arm_enable_interrupts();
 }
 #endif
 
@@ -388,13 +396,25 @@ void kmain()
 		umain(32);
 		umain(16);
 	#endif
+
 	arm_enable_interrupts();
 	uart_send_string(stdout, "IRQs enabled\n\r");
+
+	#ifdef CONFIG_TEST_TIMER
+		setTimmer(0xFFFFFFFF, 0);
+		uart_send_string(stdout, "Timer initially armed\n\r");
+	#endif
 	for (;;)
 	{
 		
 		handlAllPendingIrq();
 		_arm_sleep();
+/*
+uint32_t *ptr = kmalloc(sizeof(uint32_t));
+arm_mmio_write32(ptr, 0, 0x0000FFFF);
+uint32_t val = arm_mmio_read32(ptr, 0);
+kfree(ptr);
+*/
 	}
 #endif
 }

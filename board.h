@@ -305,6 +305,32 @@ _arm_mmio_clearsetbits32(uintptr_t base, uint32_t off, uint32_t mask, uint32_t b
     _arm_mmio_clearsetbits32(((uintptr_t)(base)),((uint32_t)(off)),((uint32_t)(mask)),((uint32_t)(bits)))
 
 
+
+
+/**
+ * Macros to get the value of a bit within an integer
+ */
+#define getBit8(value,bitIndex)		((uint8_t)value  >> bitIndex) & 1
+#define getBit16(value,bitIndex)	((uint16_t)value >> bitIndex) & 1
+#define getBit32(value,bitIndex)	((uint32_t)value >> bitIndex) & 1
+
+
+/**
+ * Macros to set the value of a bit within an integer
+ */
+#define setBit8(value,bitIndex)		((uint8_t)value  | (1 << bitIndex))
+#define setBit16(value,bitIndex)	((uint16_t)value | (1 << bitIndex))
+#define setBit32(value,bitIndex)	((uint32_t)value | (1 << bitIndex))
+
+
+/**
+ * Macros to clear the value of a bit within an integer
+ */
+#define clearBit8(value,bitIndex)	((uint8_t)value  & ~(1 << bitIndex))
+#define clearBit16(value,bitIndex)	((uint16_t)value  & ~(1 << bitIndex))
+#define clearBit32(value,bitIndex)	((uint32_t)value  & ~(1 << bitIndex))
+
+
 void kprintf(const char *fmt, ...);
 
 

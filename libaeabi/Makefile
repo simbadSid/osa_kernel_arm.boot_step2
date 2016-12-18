@@ -10,7 +10,7 @@
 ##----------------------------------
 ## Lqptop ulysse
 ##----------------------------------
-PREFIX ?= /home/coutaudu/Desktop/gcc-arm-none-eabi-5_4-2016q3
+PREFIX ?= /home/kassuskley/Desktop/gcc-arm-none-eabi-5_4-2016q3
 
 
  
